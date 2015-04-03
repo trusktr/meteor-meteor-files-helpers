@@ -7,7 +7,7 @@ MeteorFilesHelpers = {
     return path.resolve(findAppDir())
   },
 
-  getMeteorInstallationPath: function () {
+  getMeteorToolPath: function () {
     if (isWindows()) {
       return process.env.METEOR_INSTALLATION
     } else {
@@ -15,19 +15,24 @@ MeteorFilesHelpers = {
     }
   },
 
+  getMeteorInstallationPath: function () {
+    return path.resolve(MeteorFilesHelpers.getMeteorToolPath(), '../../../..')
+  },
+
   getNodeModulePath: function (meteorPackageName, nodeModuleName) {
     if (isWindows()) {
       return path.join(
         MeteorFilesHelpers.getMeteorInstallationPath(),
-        'packages', meteorPackageName,
-        MeteorFilesHelpers.getPackageVersion(meteorPackageName),
-        getRelativeNodeModulePath(nodeModuleName)
+        'packages',
+        meteorPackageName + '@' + MeteorFilesHelpers.getPackageVersion(meteorPackageName),
+        'node_modules', nodeModuleName
       )
     } else {
       return path.join(
         MeteorFilesHelpers.getAppPath(),
         '.meteor', 'local', 'build', 'programs', 'server',
-        getRelativeNodeModulePath(nodeModuleName)
+        'npm', getFilesystemMeteorPackageName(meteorPackageName),
+        'node_modules', nodeModuleName
       )
     }
   },
@@ -44,6 +49,8 @@ MeteorFilesHelpers = {
       var packageVersion = parts[1]
       versionsHash[packageName] = packageVersion
     })
+
+    return versionsHash
   }),
 
   getPackageVersion: function (packageName) {
@@ -62,11 +69,4 @@ function getFilesystemMeteorPackageName(meteorPackageName) {
   return (meteorVersion && PackageVersion.lessThan(meteorVersion, '1.0.4')) ?
     meteorPackageName :
     meteorPackageName.replace(':', '_')
-}
-
-function getRelativeNodeModulePath(nodeModuleName) {
-  return path.join(
-    'npm', getFilesystemMeteorPackageName(meteorPackageName),
-    'node_modules', nodeModuleName
-  )
 }
