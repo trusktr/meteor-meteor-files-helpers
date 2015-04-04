@@ -12,4 +12,4 @@ export EXPECTED_METEOR_TOOL_PATH=/Users/jonas/.meteor/packages/meteor-tool/1.1.2
 export EXPECTED_METEOR_INSTALLATION_PATH=/Users/jonas/.meteor
 export EXPECTED_NODE_MODULE_PATH=/Users/jonas/Projects/meteor-files-helpers/test-app/.meteor/local/build/programs/server/npm/sanjo_node-module-test/node_modules/fs-extra
 
-meteor --test --port 6000
+meteor --test --port 5000

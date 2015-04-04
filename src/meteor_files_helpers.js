@@ -9,14 +9,25 @@ MeteorFilesHelpers = {
 
   getMeteorToolPath: function () {
     if (isWindows()) {
-      return process.env.METEOR_INSTALLATION
+      return path.resolve(process.env.NODE_PATH, '../../..')
     } else {
       return process.env.OLDPWD
     }
   },
 
   getMeteorInstallationPath: function () {
-    return path.resolve(MeteorFilesHelpers.getMeteorToolPath(), '../../../..')
+    var meteorPath
+    if (isWindows()) {
+      meteorPath = process.env.METEOR_INSTALLATION
+      if (meteorPath[meteorPath.length - 1] === '\\') {
+        meteorPath = meteorPath.substr(0, meteorPath.length - 1)
+      }
+
+    } else {
+      meteorPath = path.resolve(MeteorFilesHelpers.getMeteorToolPath(), '../../../..')
+    }
+
+    return meteorPath
   },
 
   getNodeModulePath: function (meteorPackageName, nodeModuleName) {
