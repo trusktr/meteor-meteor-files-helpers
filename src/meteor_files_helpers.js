@@ -1,6 +1,11 @@
 var path = Npm.require('path')
 var fs = Npm.require('fs')
 var readFile = Meteor.wrapAsync(fs.readFile, fs)
+var exists = Meteor.wrapAsync(function (path, callback) {
+  fs.exists(path, function (result) {
+    callback(null, result)
+  })
+})
 
 MeteorFilesHelpers = {
   getAppPath: function () {
@@ -31,20 +36,29 @@ MeteorFilesHelpers = {
   },
 
   getNodeModulePath: function (meteorPackageName, nodeModuleName) {
-    if (isWindows()) {
-      return path.join(
-        MeteorFilesHelpers.getMeteorInstallationPath(),
-        'packages',
-        meteorPackageName + '@' + MeteorFilesHelpers.getPackageVersion(meteorPackageName),
-        'node_modules', nodeModuleName
-      )
+    var localIsopackPath = path.join(
+      MeteorFilesHelpers.getAppPath(),
+      '.meteor', 'local', 'isopacks',
+      getFilesystemMeteorPackageName(meteorPackageName)
+    )
+    if (exists(localIsopackPath)) {
+      return path.join(localIsopackPath, 'npm', 'node_modules', nodeModuleName)
     } else {
-      return path.join(
-        MeteorFilesHelpers.getAppPath(),
-        '.meteor', 'local', 'build', 'programs', 'server',
-        'npm', getFilesystemMeteorPackageName(meteorPackageName),
-        'node_modules', nodeModuleName
-      )
+      if (isWindows()) {
+        return path.join(
+          MeteorFilesHelpers.getMeteorInstallationPath(),
+          'packages',
+          meteorPackageName, MeteorFilesHelpers.getPackageVersion(meteorPackageName),
+          'npm', 'node_modules', nodeModuleName
+        )
+      } else {
+        return path.join(
+          MeteorFilesHelpers.getAppPath(),
+          '.meteor', 'local', 'build', 'programs', 'server',
+          'npm', getFilesystemMeteorPackageName(meteorPackageName),
+          'node_modules', nodeModuleName
+        )
+      }
     }
   },
 

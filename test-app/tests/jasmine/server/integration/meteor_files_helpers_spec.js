@@ -32,16 +32,35 @@ Jasmine.onTest(function () {
 
     describe('getNodeModulePath', function () {
 
-      it('returns the path of a node module ' +
-         'that is a dependency of a Meteor package',
-        function () {
-          var nodeModulePath = MeteorFilesHelpers.getNodeModulePath(
-            'sanjo:node-module-test',
-            'fs-extra'
-          )
-          expect(nodeModulePath).toEqual(process.env.EXPECTED_NODE_MODULE_PATH)
-        }
-      )
+      describe('when the meteor package is a local package', function () {
+
+        it('returns the path of a node module ' +
+          'that is a dependency of a Meteor package',
+          function () {
+            var nodeModulePath = MeteorFilesHelpers.getNodeModulePath(
+              'sanjo:node-module-test',
+              'fs-extra'
+            )
+            expect(nodeModulePath).toEqual(process.env.EXPECTED_LOCAL_PACKAGE_NODE_MODULE_PATH)
+          }
+        )
+
+      })
+
+      describe('when the meteor package is an installed package', function () {
+
+        it('returns the path of a node module ' +
+          'that is a dependency of a Meteor package',
+          function () {
+            var nodeModulePath = MeteorFilesHelpers.getNodeModulePath(
+              'ddp',
+              'sockjs'
+            )
+            expect(nodeModulePath).toEqual(process.env.EXPECTED_INSTALLED_PACKAGE_NODE_MODULE_PATH)
+          }
+        )
+
+      })
 
     })
 
