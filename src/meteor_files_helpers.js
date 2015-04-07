@@ -48,7 +48,7 @@ MeteorFilesHelpers = {
         return path.join(
           MeteorFilesHelpers.getMeteorInstallationPath(),
           'packages',
-          meteorPackageName, MeteorFilesHelpers.getPackageVersion(meteorPackageName),
+          getFilesystemMeteorPackageName(meteorPackageName), MeteorFilesHelpers.getPackageVersion(meteorPackageName),
           'npm', 'node_modules', nodeModuleName
         )
       } else {
