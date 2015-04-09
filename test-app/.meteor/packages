@@ -5,7 +5,7 @@
 # but you can also edit it by hand.
 
 meteor-platform
-sanjo:jasmine
+sanjo:jasmine@0.13.0-rc.4
 velocity:html-reporter
 sanjo:meteor-files-helpers
 sanjo:node-module-test
