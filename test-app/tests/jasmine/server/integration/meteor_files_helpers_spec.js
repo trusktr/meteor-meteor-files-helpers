@@ -85,5 +85,44 @@ Jasmine.onTest(function () {
 
     })
 
+    describe('isPackageInstalled', function () {
+
+      describe('when the package is installed', function () {
+
+        it('returns true', function () {
+          expect(MeteorFilesHelpers.isPackageInstalled('meteor-tool'))
+            .toBe(true)
+        });
+
+      });
+
+      describe('when the package version is installed', function () {
+
+        it('returns true', function () {
+          expect(MeteorFilesHelpers.isPackageInstalled('meteor-tool', '1.1.3'))
+            .toBe(true)
+        });
+
+      });
+
+      describe('when the package is not installed', function () {
+
+        it('returns true', function () {
+          expect(MeteorFilesHelpers.isPackageInstalled('foo-tool')).toBe(false)
+        });
+
+      });
+
+      describe('when the package version is not installed', function () {
+
+        it('returns true', function () {
+          expect(MeteorFilesHelpers.isPackageInstalled('meteor-tool', '0.1.0'))
+            .toBe(false)
+        });
+
+      });
+
+    });
+
   })
 })

@@ -82,6 +82,20 @@ MeteorFilesHelpers = {
     var packageVersions = MeteorFilesHelpers.getPackageVersions()
 
     return packageVersions[packageName]
+  },
+
+  isPackageInstalled: function (meteorPackageName, meteorPackageVersion) {
+    var packagePath = path.join(
+      MeteorFilesHelpers.getMeteorInstallationPath(),
+      'packages',
+      getFilesystemMeteorPackageName(meteorPackageName)
+    )
+
+    if (meteorPackageVersion) {
+      packagePath = path.join(packagePath, meteorPackageVersion)
+    }
+
+    return exists(packagePath)
   }
 }
 
