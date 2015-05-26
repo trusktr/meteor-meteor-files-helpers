@@ -12,7 +12,7 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.1')
-  api.export('MeteorFilesHelpers')
+  api.export('MeteorFilesHelpers', 'server')
   api.use('underscore', 'server')
   api.use('sanjo:meteor-version@1.0.0', 'server')
   api.use('package-version-parser', 'server')
