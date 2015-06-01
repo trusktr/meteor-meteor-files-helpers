@@ -9,7 +9,10 @@ var exists = Meteor.wrapAsync(function (path, callback) {
 
 MeteorFilesHelpers = {
   getAppPath: function () {
-    return path.resolve(findAppDir())
+    var foundPath = findAppDir()
+    if (typeof foundPath == 'string') {
+      return path.resolve(foundPath)
+    return foundPath
   },
 
   getMeteorToolPath: function () {
